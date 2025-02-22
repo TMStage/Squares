@@ -2,9 +2,11 @@ import pygame
 import sys
 
 # Constants
-SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720  # Adjusted resolution
+SCREEN_WIDTH, SCREEN_HEIGHT = 1280, 720  # Game window dimensions
 GRID_COLS, GRID_ROWS = 4, 25  # Grid dimensions
-CELL_SIZE = SCREEN_WIDTH // GRID_COLS  # Calculate cell size dynamically based on width
+CELL_SIZE = 24  # Size of each cell in the grid (small squares)
+GRID_MARGIN_X = 20  # Margin from the left edge of the screen
+GRID_MARGIN_Y = 20  # Margin from the top edge of the screen
 FPS = 60
 
 # Colors
@@ -12,17 +14,22 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GRAY = (200, 200, 200)
 
-def draw_grid(screen, cols, rows, cell_size):
-    """Draw a simple grid on the screen."""
+def draw_grid(screen, cols, rows, cell_size, margin_x, margin_y):
+    """Draw a 4x25 grid on the left side of the screen with margins."""
     for x in range(cols):
-        pygame.draw.line(screen, GRAY, (x * cell_size, 0), (x * cell_size, rows * cell_size))
-    for y in range(rows):
-        pygame.draw.line(screen, GRAY, (0, y * cell_size), (cols * cell_size, y * cell_size))
+        for y in range(rows):
+            rect = pygame.Rect(
+                margin_x + x * cell_size,  # X-coordinate
+                margin_y + y * cell_size,  # Y-coordinate
+                cell_size,  # Width
+                cell_size,  # Height
+            )
+            pygame.draw.rect(screen, GRAY, rect, 1)  # Draw cell border
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    pygame.display.set_caption("Squares Prototype")
+    pygame.display.set_caption("Intelligent Qube Prototype")
     clock = pygame.time.Clock()
 
     while True:
@@ -35,10 +42,5 @@ def main():
         # Update logic here
 
         # Draw everything
-        screen.fill(BLACK)
-        draw_grid(screen, GRID_COLS, GRID_ROWS, CELL_SIZE)
-        pygame.display.flip()
-        clock.tick(FPS)
-
-if __name__ == "__main__":
-    main()
+        screen.fill(BLUE)
+       
